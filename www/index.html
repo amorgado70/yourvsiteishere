@@ -23,10 +23,97 @@
     <script src='js/angular-google-maps.min.js'></script>
     <script src='cordova.js'></script>
     <script src="form.js"></script>
+    <!-- Required to use autocomplete -->
+    <script src='js/jquery-2.2.1.js'></script>
+    <script src='js/jquery-ui-1.11.4.js'></script>
     <style>
         .angular-google-map-container { height: 400px; }
     </style>
 </head>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // ***** Site Search
+        $('#siteName').click(function () {
+            $('#siteName').val('');
+        });
+        $('#siteName').autocomplete({
+            source: function (request, response) {
+                var postpath = 'http://www.alvm.com.br/ipmrvpark/RVSiteCoordView/GetSites';
+                $.ajax({
+                    url: postpath,
+                    type: 'POST',
+                    dataType: 'json',
+                    // query will be the param used by the action method
+                    data: { query: request.term },
+                    success: response
+                });
+            },
+            minLength: 1, // require at least one character from the user
+            select: function (event, ui) {
+                $('#id').val(ui.item.ID); // name of form input field: CustomerID, ProductID
+                $('#latitude').val(ui.item.Latitude);
+                $('#longitude').val(ui.item.Longitude);
+            }
+        });
+        
+
+// ***** Begin of CORS        
+        
+// Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Helper method to parse the title tag from the response.
+function getTitle(text) {
+  return text.match('<title>(.*)?</title>')[1];
+}
+
+// Make the actual CORS request.
+function makeCorsRequest() {
+    alert('Hello from CORS');
+    
+  // All HTML5 Rocks properties support CORS.
+  var url = 'http://updates.html5rocks.com';
+
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    var title = getTitle(text);
+    alert('Response from CORS request to ' + url + ': ' + title);
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.send();
+}        
+
+// ***** End of CORS        
+        
+    });
+</script>    
+
 
 <body ng-app="myapp" ng-controller="mycontroller">
     <div ui-content-for="title">
@@ -68,6 +155,36 @@
             </form>
         </div>
     </div>
+    
+<div class="container-fluid">
+    <!-- RV Site Selection -->
+    <div class="row form-top-margin">
+        <div class="col-sm-2 col-xs-12 form-top-margin">
+            <label>RV Site</label>
+        </div>
+        <div class="col-sm-10 col-xs-12 form-top-margin" data-toggle="tooltip" title="Search and selecte with autocomplete">
+            <input type="text" class="form-control" id="siteName" placeholder="Type letter or number then select from the list"/>
+            <input class="text-box single-line" id="id" name="id" type="text" disabled/>
+        </div>
+    </div>
+    <div class="row form-top-margin">
+        <div class="col-sm-2 col-xs-12 form-top-margin">
+            <label>Latitude</label>
+        </div>
+        <div class="col-sm-10 col-xs-12 form-top-margin" data-toggle="tooltip" title="Search and selecte with autocomplete">
+            <input class="text-box single-line" id="latitude" name="latitude" type="text" disabled />
+        </div>
+    </div>
+    <div class="row form-top-margin">
+        <div class="col-sm-2 col-xs-12 form-top-margin">
+            <label>Longitude</label>
+        </div>
+        <div class="col-sm-10 col-xs-12 form-top-margin" data-toggle="tooltip" title="Search and selecte with autocomplete">
+            <input class="text-box single-line" id="longitude" name="longitude" type="text" disabled />
+        </div>
+    </div>
+</div>     
+    
 </body>
 
 </html>
