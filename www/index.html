@@ -12,27 +12,23 @@
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/mobile-angular-ui-hover.min.css" />
     <link rel="stylesheet" href="css/mobile-angular-ui-base.min.css" />
-    <link rel="stylesheet" href="css/mobile-angular-ui-desktop.min.css" />
-    <!-- link rel="stylesheet" href="demo.css" / -->
-    <script src="js/angular.min.js"></script>
-    <script src="js/angular-route.min.js"></script>
-    <script src="js/mobile-angular-ui.min.js"></script>
-    <!-- Required to use $swipe, $drag and Translate services -->
-    <script src="js/mobile-angular-ui.gestures.min.js"></script>
-    <script src='js/lodash.min.js'></script>
-    <script src='js/angular-google-maps.min.js'></script>
+    <link rel="stylesheet" href="css/mobile-angular-ui-desktop.min.css" />    
+    <!-- GoogleMap CSS -->
+    <link rel="stylesheet" type="text/css" href="css/ipmrvpark.css" />
+    <!-- Cordova -->
     <script src='cordova.js'></script>
-    <script src="form.js"></script>
     <!-- Required to use autocomplete -->
     <script src='js/jquery-2.2.1.js'></script>
     <script src='js/jquery-ui-1.11.4.js'></script>
-    <style>
-        .angular-google-map-container { height: 400px; }
-    </style>
+    <!-- Google maps for jQuery -->
+    <script type="text/javascript" src="js/gmapapijs?sensor=true&key=AIzaSyCN7Z5pyiivskygZ6jCxlzkDv5WYmrK23c"></script>
+    <script type="text/javascript" src="js/gmaps.js"></script>
 </head>
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var latitude = -12.043333;
+        var longitude = -77.028333;
         // ***** Site Search
         $('#siteName').click(function () {
             $('#siteName').val('');
@@ -54,10 +50,35 @@
                 $('#id').val(ui.item.ID); // name of form input field: CustomerID, ProductID
                 $('#latitude').val(ui.item.Latitude);
                 $('#longitude').val(ui.item.Longitude);
+                latitude = parseFloat(ui.item.Latitude);
+                longitude = parseFloat(ui.item.Longitude);
+                updateGMaps();
             }
         });
         
+// ***** Begin of Google Maps
+        
+        function updateGMaps(){
+        
+        GMaps({
 
+            el: '#map',
+        lat: latitude,
+        lng: longitude,
+        zoomControl : true,
+        zoomControlOpt: {
+            style : 'SMALL',
+            position: 'TOP_LEFT'
+        },
+        panControl : false,
+        streetViewControl : false,
+        mapTypeControl: false,
+        overviewMapControl: false
+      });
+        }
+        
+// ***** End of Google Maps
+        
 // ***** Begin of CORS        
         
 // Create the XHR object.
@@ -115,48 +136,7 @@ function makeCorsRequest() {
 </script>    
 
 
-<body ng-app="myapp" ng-controller="mycontroller">
-    <div ui-content-for="title">
-        <span>Forms</span>
-    </div>
-
-    <div class="scrollable">
-        <div class="scrollable-content section">
-            <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
-            <form role="form" ng-submit='login()'>
-                <fieldset>
-                    <legend>You are Here!</legend>
-                    <div ng-hide="!showLatLong">
-
-                        <div class="form-group has-success has-feedback">
-                            <label>latitude</label>
-                            <input ng-model="map.center.latitude" class="form-control" >
-                        </div>
-                        <div class="form-group">
-                            <label>longitude</label>
-                            <input ng-model="map.center.longitude" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Show Latitude and Longitude</label>
-                        <ui-switch ng-model='showLatLong'></ui-switch>
-                    </div>
-                </fieldset>
-                <!--hr>
-
-                <button class="btn btn-primary btn-block">
-                    Login
-                </button>
-
-                <div ui-content-for="navbarAction">
-                    <a class='btn' ng-click='login()'>Login</a>
-                </div -->
-
-            </form>
-        </div>
-    </div>
-    
-<div class="container-fluid">
+<body>          
     <!-- RV Site Selection -->
     <div class="row form-top-margin">
         <div class="col-sm-2 col-xs-12 form-top-margin">
@@ -182,8 +162,18 @@ function makeCorsRequest() {
         <div class="col-sm-10 col-xs-12 form-top-margin" data-toggle="tooltip" title="Search and selecte with autocomplete">
             <input class="text-box single-line" id="longitude" name="longitude" type="text" disabled />
         </div>
+    </div>                 
+                
+                
+                
+
+            </form>
+        </div>
     </div>
-</div>     
+    
+    <div>
+      <div id="map"></div>
+    </div>   
     
 </body>
 
