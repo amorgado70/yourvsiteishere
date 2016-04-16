@@ -13,6 +13,11 @@
     <content src="index.html" />
     <preference name="phonegap-version" value="3.7.0" />
     <plugin name="org.apache.cordova.inappbrowser" />
+    <plugin name="org.apache.cordova.geolocation" />
+    <plugin name="org.apache.cordova.device" />
+    <feature name="Geolocation">
+        <param name="ios-package" value="CDVLocation" />
+    </feature>
     <allow-navigation href="https://*/*" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
