@@ -21,7 +21,7 @@
     <script src='js/jquery-2.2.1.js'></script>
     <script src='js/jquery-ui-1.11.4.js'></script>
     <!-- Google maps for jQuery -->
-    <script type="text/javascript" src="js/gmapapijs?sensor=true&key=AIzaSyCN7Z5pyiivskygZ6jCxlzkDv5WYmrK23c"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUfCjLmBvQEopR-U1sI0AyvGhLQJORSIs" type="text/javascript"></script><!-- This if the Browser API key -->
     <script type="text/javascript" src="js/gmaps.js"></script>
 </head>
 
@@ -75,7 +75,7 @@
         position: 'TOP_LEFT'
     },
      mapTypeId: google.maps.MapTypeId.HYBRID,
-    panControl : false,
+    panControl : true,
   });
 
             map.addMarker({
@@ -84,7 +84,7 @@
       title: label,
       //icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + label + '|FFFF00|000000'
       icon: 'images/m2.png'
-    });       
+    });
             
         }
         
@@ -148,32 +148,40 @@ function makeCorsRequest() {
     });
 </script>    
 
+    <div>
+            <img src="images/favicon.ico" alt="IPM" class="favicon">
+
+            <span class="title">IPM 2016 - RV Site Locator</span>
+
+    </div>
 
 <body>
     <div class="container">
+
+
     <!-- RV Site Selection -->
     <div class="row form-top-margin">
-        <div class="col-sm-2 col-xs-12">
+        <div class="col-xs-4">
             <label>RV Site</label>
         </div>
-        <div class="col-sm-4 col-xs-12" data-toggle="tooltip" title="Search and select with autocomplete">
-            <input type="text" class="form-control" id="siteName" placeholder="Type letter or number then select from the list"/>
+        <div class="col-xs-8" data-toggle="tooltip" title="Search and select with autocomplete">
+            <input type="text" class="form-control" id="siteName" placeholder="Site letter or number"/>
             <input class="text-box single-line" id="id" name="id" type="hidden" disabled/>
         </div>
     </div>
     <div class="row form-top-margin">
-        <div class="col-sm-2 col-xs-12">
+        <div class="col-xs-4">
             <label>Latitude</label>
         </div>
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-xs-8">
             <input class="form-control" id="latitude" name="latitude" type="text" disabled />
         </div>
     </div>
     <div class="row form-top-margin">
-        <div class="col-sm-2 col-xs-12">
+        <div class="col-xs-4">
             <label>Longitude</label>
         </div>
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-xs-8">
             <input class="form-control" id="longitude" name="longitude" type="text" disabled />
         </div>
     </div>                 
