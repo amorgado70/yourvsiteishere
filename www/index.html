@@ -1,256 +1,73 @@
 <!Doctype html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- CSS for this application -->
-        <link rel="stylesheet" type="text/css" href="css/ipmrvpark.css" />
-        
-        <script src="js/jquery-2.2.1.js"></script>
-        <script src="js/jquery-ui-1.11.4.js"></script>
-		<script src="js/jquery.mobile.min.js"></script>
 
-    <!-- Google maps for jQuery -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUfCjLmBvQEopR-U1sI0AyvGhLQJORSIs" type="text/javascript"></script><!-- This if the Browser API key -->
-    <script type="text/javascript" src="js/gmaps.js"></script>
-        
-    </head>
+<head>
+    <meta charset="utf-8" />
+    <!-- base href="/demo/" / -->
+    <title>Mobile Angular UI Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="yes" />
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="css/mobile-angular-ui-hover.min.css" />
+    <link rel="stylesheet" href="css/mobile-angular-ui-base.min.css" />
+    <link rel="stylesheet" href="css/mobile-angular-ui-desktop.min.css" />
+    <!-- link rel="stylesheet" href="demo.css" / -->
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/mobile-angular-ui.min.js"></script>
+    <!-- Required to use $swipe, $drag and Translate services -->
+    <script src="js/mobile-angular-ui.gestures.min.js"></script>
+    <script src='js/lodash.min.js'></script>
+    <script src='js/angular-google-maps.min.js'></script>
+    <script src='cordova.js'></script>
+    <script src="form.js"></script>
+    <style>
+        .angular-google-map-container { height: 400px; }
+    </style>
+</head>
 
-<script type="text/javascript">
-    // Global variables
-        var latitude = 0;
-        var longitude = 0;
-        var label = ' ';
-    $(document).ready(function () {
-        // ***** Site Search
-        $('#siteName').click(function () {
-            $('#siteName').val('');
-        });
-        $('#siteName').autocomplete({
-            source: function (request, response) {
-                var postpath = 'http://www.alvm.com.br/ipmrvpark/RVSiteCoordView/GetSites';
-                $.ajax({
-                    url: postpath,
-                    type: 'POST',
-                    dataType: 'json',
-                    // query will be the param used by the action method
-                    data: { query: request.term },
-                    success: response
-                });
-            },
-            minLength: 1, // require at least one character from the user
-            select: function (event, ui) {
-                $('#id').val(ui.item.ID); // name of form input field: CustomerID, ProductID
-                latitude = parseFloat(ui.item.Longitude);
-                longitude = parseFloat(ui.item.Latitude);
-                label = ui.item.label;
-                $('#latitude').val(latitude);
-                $('#longitude').val(longitude);
-                updateGMaps();
-            }
-        });
-
-// ***** Begin of Google Maps
-
-        function updateGMaps(){
-
-        var yourlatitude = $('#yourlatitude').text();
-        var yourlongitude = $('#yourlongitude').text();
-
- var map = new GMaps({
-    el: '#map',
-    lat: yourlatitude,
-    lng: yourlongitude,
-    zoom: 15,
-    zoomControl : true,
-    zoomControlOpt: {
-        style : 'SMALL',
-        position: 'TOP_LEFT'
-    },
-     mapTypeId: google.maps.MapTypeId.HYBRID,
-    panControl : true,
-  });
-
-            /*
-            map.addMarker({
-      lat: latitude,
-      lng: longitude,
-      title: label,
-      icon: 'img/m2.png'
-    });
-
-            map.addMarker({
-      lat: yourlatitude,
-      lng: yourlongitude,
-      icon: 'img/m1.png'
-    });                    */
-
-
-var latlngs = [{lat:yourlatitude, lng:yourlongitude, icon: "img/m1.png"},
-               {lat:latitude, lng:longitude, icon: "img/m2.png"}];
-var bounds = [];
-for (var i in latlngs) {
-  var latlng = new google.maps.LatLng(latlngs[i].lat, latlngs[i].lng);
-  bounds.push(latlng);
-  map.addMarker({
-    lat: latlngs[i].lat,
-    lng: latlngs[i].lng,
-    icon: latlngs[i].icon
-  });
-}
-map.fitLatLngBounds(bounds);
-
-         }
-
-
-// ***** End of Google Maps
-
-// ***** Begin of CORS
-
-// Create the XHR object.
-function createCORSRequest(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    // XDomainRequest for IE.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    // CORS not supported.
-    xhr = null;
-  }
-  return xhr;
-}
-
-// Helper method to parse the title tag from the response.
-function getTitle(text) {
-  return text.match('<title>(.*)?</title>')[1];
-}
-
-// Make the actual CORS request.
-function makeCorsRequest() {
-    alert('Hello from CORS');
-
-  // All HTML5 Rocks properties support CORS.
-  var url = 'http://updates.html5rocks.com';
-
-  var xhr = createCORSRequest('GET', url);
-  if (!xhr) {
-    alert('CORS not supported');
-    return;
-  }
-
-  // Response handlers.
-  xhr.onload = function() {
-    var text = xhr.responseText;
-    var title = getTitle(text);
-    alert('Response from CORS request to ' + url + ': ' + title);
-  };
-
-  xhr.onerror = function() {
-    alert('Woops, there was an error making the request.');
-  };
-
-  xhr.send();
-}
-
-// ***** End of CORS
-
-
-
-    });  // End of javascript
-</script>
-
-    <div>
-            <img src="img/logo.png" alt="IPM" class="logo">
-
-            <span class="title">XIPM 2016 - RV Site Locator</span>
-
+<body ng-app="myapp" ng-controller="mycontroller">
+    <div ui-content-for="title">
+        <span>Forms</span>
     </div>
 
-<body>
+    <div class="scrollable">
+        <div class="scrollable-content section">
+            <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+            <form role="form" ng-submit='login()'>
+                <fieldset>
+                    <legend>You are Here!</legend>
+                    <div ng-hide="!showLatLong">
 
-    <div class="container">
-    <div class="row form-top-margin">
-        <div id="message"></div>
-    </div>
-    <div class="row form-top-margin">
-        <div class="col-xs-6">
-            <img src="img/m1.png" class="image-icon" alt=""/>
-            <label>Your Are Here</label>
-        </div>
-    </div>
-    <div class="row form-top-margin">
-        <div class="col-xs-6">
-            <label>Latitude</label>
-        </div>
-        <div class="col-xs-6">
-            <div class="form-control" id="yourlatitude" name="yourlatitude" type="text" disabled></div>
-        </div>
-    </div>
-    <div class="row form-top-margin">
-        <div class="col-xs-6">
-            <label>Longitude</label>
-        </div>
-        <div class="col-xs-6">
-            <div class="form-control" id="yourlongitude" name="yourlongitude" type="text" disabled ></div>
-        </div>
-    </div>
+                        <div class="form-group has-success has-feedback">
+                            <label>latitude</label>
+                            <input ng-model="map.center.latitude" class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <label>longitude</label>
+                            <input ng-model="map.center.longitude" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Show Latitude and Longitude</label>
+                        <ui-switch ng-model='showLatLong'></ui-switch>
+                    </div>
+                </fieldset>
+                <!--hr>
 
+                <button class="btn btn-primary btn-block">
+                    Login
+                </button>
 
-    <!-- RV Site Selection -->
-    <div class="row form-top-margin">
-        <div class="col-xs-6">
-            <img src="img/m2.png" class="image-icon" alt=""/>
-            <label>Your RV Site</label>
-        </div>
-        <div class="col-xs-6" data-toggle="tooltip" title="Search and select with autocomplete">
-            <input type="text" class="form-control" id="siteName" placeholder="Site letter or number"/>
-            <input class="text-box single-line" id="id" name="id" type="hidden" disabled/>
+                <div ui-content-for="navbarAction">
+                    <a class='btn' ng-click='login()'>Login</a>
+                </div -->
+
+            </form>
         </div>
     </div>
-    <div class="row form-top-margin">
-        <div class="col-xs-6">
-            <label>Latitude</label>
-        </div>
-        <div class="col-xs-6">
-            <input class="form-control" id="latitude" name="latitude" type="text" disabled />
-        </div>
-    </div>
-    <div class="row form-top-margin">
-        <div class="col-xs-6">
-            <label>Longitude</label>
-        </div>
-        <div class="col-xs-6">
-            <input class="form-control" id="longitude" name="longitude" type="text" disabled />
-        </div>
-    </div>
-    <!-- Google Map -->
-    <div id="map"></div>
-</div>
-
-<script>
-var message = document.getElementById("message");
-var yourlatitude = document.getElementById("yourlatitude");
-var yourlongitude = document.getElementById("yourlongitude");
-
-getLocation();
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        message.innerHTML = "Geolocation is not enable for this app.";
-    }
-}
-
-function showPosition(position) {
-    yourlatitude.innerHTML = position.coords.latitude;
-    yourlongitude.innerHTML = position.coords.longitude;
-}
-</script>
-
-    </body>
+</body>
 
 </html>
