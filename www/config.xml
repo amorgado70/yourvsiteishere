@@ -23,7 +23,7 @@
         <allow-intent href="market:*" />
 
         <!-- Default application icon -->
-        <icon src="www/img/logo.png" />
+        <icon src="img/logo.png" />
         <!--
             Default icon should work, but cordova don't overwrite
             the default on all densities
@@ -38,5 +38,5 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <icon src="icon.png"/>
+    <icon src="img/logo.png"/>
 </widget>
