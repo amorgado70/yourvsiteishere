@@ -32,6 +32,18 @@
         var longitude = 0;
         var label = ' ';
     $(document).ready(function () {
+
+        // Adjust map height according to available space in window
+
+        mapSize();
+
+        function mapSize () {
+    $('#map').height($(window).height() - 300 );
+}
+        $( window ).resize(function() {
+  mapSize();
+});
+
         // ***** Site Search
         $('#siteName').click(function () {
             $('#siteName').val('');
