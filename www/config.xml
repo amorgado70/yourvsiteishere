@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.github.amorgado70.yourvsiteishere" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>IPM 2016 - WWW</name>
+    <name>IPM 2016 - WWW 1</name>
     <description>
         Your RV Site Is Here
     </description>
@@ -28,10 +28,10 @@
             Default icon should work, but cordova don't overwrite
             the default on all densities
         -->
-        <icon src="www/img/logo.png" platform="android" density="ldpi" />
-        <icon src="www/img/logo.png" platform="android" density="mdpi" />
-        <icon src="www/img/logo.png" platform="android" density="hdpi" />
-        <icon src="www/img/logo.png" platform="android" density="xhdpi" />
+        <icon src="img/logo.png" platform="android" density="ldpi" />
+        <icon src="img/logo.png" platform="android" density="mdpi" />
+        <icon src="img/logo.png" platform="android" density="hdpi" />
+        <icon src="img/logo.png" platform="android" density="xhdpi" />
 
     </platform>
     <platform name="ios">
