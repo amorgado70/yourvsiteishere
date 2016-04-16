@@ -63,11 +63,13 @@
         
         function updateGMaps(){
             
-        
+        var yourlatitude = $('#yourlatitude').text();
+        var yourlongitude = $('#yourlongitude').text();
+
  var map = new GMaps({
     el: '#map',
-    lat: latitude,
-    lng: longitude,
+    lat: yourlatitude,
+    lng: yourlongitude,
     zoom: 15,
     zoomControl : true,
     zoomControlOpt: {
@@ -78,16 +80,36 @@
     panControl : true,
   });
 
+            /*
             map.addMarker({
       lat: latitude,
       lng: longitude,
       title: label,
-      //icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + label + '|FFFF00|000000'
       icon: 'images/m2.png'
     });
             
-        }
-        
+            map.addMarker({
+      lat: yourlatitude,
+      lng: yourlongitude,
+      icon: 'images/m1.png'
+    });                    */
+
+
+var latlngs = [{lat:yourlatitude, lng:yourlongitude, icon: "images/m1.png"},
+               {lat:latitude, lng:longitude, icon: "images/m2.png"}];
+var bounds = [];
+for (var i in latlngs) {
+  var latlng = new google.maps.LatLng(latlngs[i].lat, latlngs[i].lng);
+  bounds.push(latlng);
+  map.addMarker({
+    lat: latlngs[i].lat,
+    lng: latlngs[i].lng,
+    icon: latlngs[i].icon
+  });
+}
+map.fitLatLngBounds(bounds);
+
+         }
 
         
 // ***** End of Google Maps
@@ -145,7 +167,9 @@ function makeCorsRequest() {
 
 // ***** End of CORS        
         
-    });
+
+
+    });  // End of javascript
 </script>    
 
     <div>
@@ -156,39 +180,91 @@ function makeCorsRequest() {
     </div>
 
 <body>
+
     <div class="container">
+    <div class="row form-top-margin">
+        <div id="message"></div>
+    </div>
+    <div class="row form-top-margin">
+        <div class="col-xs-2">
+            <img src="images/m1.png" class="image-icon" alt=""/>
+        </div>
+        <div class="col-xs-4">
+            <label>Your Latitude</label>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-control" id="yourlatitude" name="yourlatitude" type="text" disabled></div>
+        </div>
+    </div>
+    <div class="row form-top-margin">
+        <div class="col-xs-2">
+        </div>
+        <div class="col-xs-4">
+            <label>Your Longitude</label>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-control" id="yourlongitude" name="yourlongitude" type="text" disabled ></div>
+        </div>
+    </div>
 
 
     <!-- RV Site Selection -->
     <div class="row form-top-margin">
-        <div class="col-xs-4">
+        <div class="col-xs-6">
             <label>RV Site</label>
         </div>
-        <div class="col-xs-8" data-toggle="tooltip" title="Search and select with autocomplete">
+        <div class="col-xs-6" data-toggle="tooltip" title="Search and select with autocomplete">
             <input type="text" class="form-control" id="siteName" placeholder="Site letter or number"/>
             <input class="text-box single-line" id="id" name="id" type="hidden" disabled/>
         </div>
     </div>
     <div class="row form-top-margin">
+        <div class="col-xs-2">
+            <img src="images/m2.png" class="image-icon" alt=""/>
+        </div>
         <div class="col-xs-4">
             <label>Latitude</label>
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-6">
             <input class="form-control" id="latitude" name="latitude" type="text" disabled />
         </div>
     </div>
     <div class="row form-top-margin">
+        <div class="col-xs-2">
+        </div>
         <div class="col-xs-4">
             <label>Longitude</label>
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-6">
             <input class="form-control" id="longitude" name="longitude" type="text" disabled />
         </div>
-    </div>                 
-    <div>
+    </div>
+    <!-- Google Map -->
     <div id="map"></div>
-            </div>
-</div>        
-</body>
+</div>
+
+<script>
+var message = document.getElementById("message");
+var yourlatitude = document.getElementById("yourlatitude");
+var yourlongitude = document.getElementById("yourlongitude");
+
+getLocation();
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        message.innerHTML = "Geolocation is not enable for this app.";
+    }
+}
+
+function showPosition(position) {
+    yourlatitude.innerHTML = position.coords.latitude;
+    yourlongitude.innerHTML = position.coords.longitude;
+}
+</script>
+
+
+    </body>
 
 </html>
