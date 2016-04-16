@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget id="io.github.amorgado70.yourvsiteishere" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
-    <name>IPM 2016 - RV Site Locator V9</name>
+    <name>IPM 2016 - RV Site Locator V10</name>
 
     <description>
         IPM 2016 - RV Site Locator
@@ -26,20 +26,20 @@
         <allow-intent href="market:*" />
 
         <!-- Default application icon -->
-        <icon src="img/logo.png" />
+        <icon src="images/logo.png" />
         <!--
             Default icon should work, but cordova don't overwrite
             the default on all densities
         -->
-        <icon src="img/logo.png" platform="android" density="ldpi" />
-        <icon src="img/logo.png" platform="android" density="mdpi" />
-        <icon src="img/logo.png" platform="android" density="hdpi" />
-        <icon src="img/logo.png" platform="android" density="xhdpi" />
+        <icon src="images/logo.png" platform="android" density="ldpi" />
+        <icon src="images/logo.png" platform="android" density="mdpi" />
+        <icon src="images/logo.png" platform="android" density="hdpi" />
+        <icon src="images/logo.png" platform="android" density="xhdpi" />
 
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <icon src="img/logo.png"/>
+    <icon src="images/logo.png"/>
 </widget>

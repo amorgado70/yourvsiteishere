@@ -62,10 +62,31 @@
 
 // ***** Begin of Google Maps
 
-        function updateGMaps(){
 
-        var yourlatitude = $('#yourlatitude').text();
-        var yourlongitude = $('#yourlongitude').text();
+var yourlatitude = 0;
+var yourlongitude = 0;
+
+/* Retrieve Actual Location */
+
+getLocation();
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert('Geolocation is not enable for this application or browser.');
+    }
+}
+
+function showPosition(position) {
+    yourlatitude = position.coords.latitude;
+    yourlongitude = position.coords.longitude;
+    $('#yourlatitude').text(yourlatitude);
+    $('#yourlongitude').text(yourlongitude);
+}
+
+
+        function updateGMaps(){
 
  var map = new GMaps({
     el: '#map',
@@ -81,20 +102,7 @@
     panControl : true,
   });
 
-            /*
-            map.addMarker({
-      lat: latitude,
-      lng: longitude,
-      title: label,
-      icon: 'images/m2.png'
-    });
-
-            map.addMarker({
-      lat: yourlatitude,
-      lng: yourlongitude,
-      icon: 'images/m1.png'
-    });                    */
-
+/* Zoom Google Map to All Markers */
 
 var latlngs = [{lat:yourlatitude, lng:yourlongitude, icon: "images/m1.png"},
                {lat:latitude, lng:longitude, icon: "images/m2.png"}];
@@ -241,28 +249,6 @@ function makeCorsRequest() {
     <div id="map"></div>
 </div>
 
-<script>
-var message = document.getElementById("message");
-var yourlatitude = document.getElementById("yourlatitude");
-var yourlongitude = document.getElementById("yourlongitude");
-
-getLocation();
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        message.innerHTML = "Geolocation is not enable for this app.";
-    }
-}
-
-function showPosition(position) {
-    yourlatitude.innerHTML = position.coords.latitude;
-    yourlongitude.innerHTML = position.coords.longitude;
-}
-</script>
-
-
-    </body>
+</body>
 
 </html>
