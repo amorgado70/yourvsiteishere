@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.salesucation.youarehere" version="0.0.3">
 
-    <name>You are here</name>
+    <name>IPM 2016 - RV Site Locator</name>
 
     <description>
-        You are here example
+        IPM 2016 - RV Site Locator
     </description>
     <content src="www/index.html" />
-    <author href="https://rhildred.github.io" email="rhildred@gmail.com">
-        Rich Hildred and Mobile App Class of 2015
+    <author href="https://github.com/amorgado70/yourvsiteishere" email="alfredo.mor9ado@gmail.com">
+        Alfredo Morgado, Kangryong Choi and Md Abdus Sadeque Assignment 2 PROG8110 Winter 2016
     </author>
     <!-- We'll include the Barcode plugin as an example -->
     <preference name="phonegap-version" value="3.7.0" />
