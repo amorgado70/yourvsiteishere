@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.github.amorgado70.paultheoctopus" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.github.amorgado70.yourvsiteishere" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>IPM 2016</name>
     <description>
-        IPM 2016
+        Your RV Site Is Here
     </description>
     <author email="alfredo.mor9ado@gmail.com" href="https://github.com.amorgado70">
         Apache Cordova Team
